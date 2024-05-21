@@ -29,48 +29,16 @@ class ShoppingListScreen extends StatelessWidget {
             child: Row(
               children: [
                 Expanded(
-                  child: Autocomplete<String>(
-                    optionsBuilder: (TextEditingValue textEditingValue) {
-                      if (textEditingValue.text.isEmpty) {
-                        return const Iterable<String>.empty();
-                      }
-                      return shoppingListProvider.articleSuggestions.where((String option) {
-                        return option.contains(textEditingValue.text.toLowerCase());
-                      });
-                    },
-                    onSelected: (String selection) {
-                      _nameController.text = selection;
-                    },
-                    fieldViewBuilder: (BuildContext context, TextEditingController textEditingController, FocusNode focusNode, VoidCallback onFieldSubmitted) {
-                      return TextField(
-                        controller: textEditingController,
-                        focusNode: focusNode,
-                        decoration: const InputDecoration(labelText: 'Article'),
-                      );
-                    },
+                  child: TextField(
+                    controller: _nameController,
+                    decoration: const InputDecoration(labelText: 'Article'),
                   ),
                 ),
                 const SizedBox(width: 10),
                 Expanded(
-                  child: Autocomplete<String>(
-                    optionsBuilder: (TextEditingValue textEditingValue) {
-                      if (textEditingValue.text.isEmpty) {
-                        return const Iterable<String>.empty();
-                      }
-                      return shoppingListProvider.categorySuggestions.where((String option) {
-                        return option.contains(textEditingValue.text.toLowerCase());
-                      });
-                    },
-                    onSelected: (String selection) {
-                      _categoryController.text = selection;
-                    },
-                    fieldViewBuilder: (BuildContext context, TextEditingController textEditingController, FocusNode focusNode, VoidCallback onFieldSubmitted) {
-                      return TextField(
-                        controller: textEditingController,
-                        focusNode: focusNode,
-                        decoration: const InputDecoration(labelText: 'Catégorie'),
-                      );
-                    },
+                  child: TextField(
+                    controller: _categoryController,
+                    decoration: const InputDecoration(labelText: 'Catégorie'),
                   ),
                 ),
                 IconButton(
