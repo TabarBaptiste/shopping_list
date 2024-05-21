@@ -21,6 +21,14 @@ class ShoppingListProvider with ChangeNotifier {
     return categorizedItems;
   }
 
+  List<String> get articleSuggestions {
+    return _items.map((item) => item.name).toSet().toList();
+  }
+
+  List<String> get categorySuggestions {
+    return _items.map((item) => item.category).toSet().toList();
+  }
+
   void addItem(String name, String category) {
     _items.add(ShoppingItem(name: name, category: category));
     notifyListeners();
