@@ -48,30 +48,6 @@ class ShoppingListScreen extends StatelessWidget {
                         decoration: const InputDecoration(labelText: 'Article'),
                       );
                     },
-                    optionsViewBuilder: (BuildContext context, AutocompleteOnSelected<String> onSelected, Iterable<String> options) {
-                      return Align(
-                        alignment: Alignment.topLeft,
-                        child: Material(
-                          elevation: 4.0,
-                          child: SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.8, // Limite la largeur
-                            child: ListView.builder(
-                              padding: EdgeInsets.all(8.0),
-                              itemCount: options.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                final String option = options.elementAt(index);
-                                return ListTile(
-                                  title: Text(option),
-                                  onTap: () {
-                                    onSelected(option);
-                                  },
-                                );
-                              },
-                            ),
-                          ),
-                        ),
-                      );
-                    },
                   ),
                 ),
                 const SizedBox(width: 10),
@@ -93,30 +69,6 @@ class ShoppingListScreen extends StatelessWidget {
                         controller: textEditingController,
                         focusNode: focusNode,
                         decoration: const InputDecoration(labelText: 'Catégorie'),
-                      );
-                    },
-                    optionsViewBuilder: (BuildContext context, AutocompleteOnSelected<String> onSelected, Iterable<String> options) {
-                      return Align(
-                        alignment: Alignment.topLeft,
-                        child: Material(
-                          elevation: 4.0,
-                          child: SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.8, // Limite la largeur
-                            child: ListView.builder(
-                              padding: EdgeInsets.all(8.0),
-                              itemCount: options.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                final String option = options.elementAt(index);
-                                return ListTile(
-                                  title: Text(option),
-                                  onTap: () {
-                                    onSelected(option);
-                                  },
-                                );
-                              },
-                            ),
-                          ),
-                        ),
                       );
                     },
                   ),
