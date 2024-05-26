@@ -3,15 +3,23 @@ import 'package:provider/provider.dart';
 import 'shopping_list_provider.dart';
 import 'shopping_item.dart';
 
-class ShoppingListScreen extends StatelessWidget {
+class ShoppingListScreen extends StatefulWidget {
+  const ShoppingListScreen({super.key});
+
+  @override
+  // ignore: library_private_types_in_public_api
+  _ShoppingListScreenState createState() => _ShoppingListScreenState();
+}
+
+class _ShoppingListScreenState extends State<ShoppingListScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _categoryController = TextEditingController();
 
-  ShoppingListScreen({super.key});
-
+  @override
   void dispose() {
     _nameController.dispose();
     _categoryController.dispose();
+    super.dispose();
   }
 
   @override
@@ -25,7 +33,8 @@ class ShoppingListScreen extends StatelessWidget {
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+            padding:
+                const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
             child: Row(
               children: [
                 Expanded(
@@ -44,8 +53,10 @@ class ShoppingListScreen extends StatelessWidget {
                 IconButton(
                   icon: const Icon(Icons.add),
                   onPressed: () {
-                    if (_nameController.text.isNotEmpty && _categoryController.text.isNotEmpty) {
-                      shoppingListProvider.addItem(_nameController.text, _categoryController.text);
+                    if (_nameController.text.isNotEmpty &&
+                        _categoryController.text.isNotEmpty) {
+                      shoppingListProvider.addItem(
+                          _nameController.text, _categoryController.text);
                       _nameController.clear();
                       _categoryController.clear();
                     } else {
@@ -62,18 +73,23 @@ class ShoppingListScreen extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: ListView(
-              children: shoppingListProvider.itemsByCategory.entries.map((entry) {
-                return _buildCategorySection(entry.key, entry.value, shoppingListProvider);
-              }).toList(),
+            child: ListView.builder(
+              itemCount: shoppingListProvider.itemsByCategory.length,
+              itemBuilder: (context, index) {
+                final entry = shoppingListProvider.itemsByCategory.entries
+                    .elementAt(index);
+                return _buildCategorySection(
+                    entry.key, entry.value, shoppingListProvider);
+              },
             ),
-          ),
+          )
         ],
       ),
     );
   }
 
-  Widget _buildCategorySection(String category, List<ShoppingItem> items, ShoppingListProvider provider) {
+  Widget _buildCategorySection(String category, List<ShoppingItem> items,
+      ShoppingListProvider provider) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
       child: Card(
@@ -86,17 +102,36 @@ class ShoppingListScreen extends StatelessWidget {
             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           children: items.map((item) {
-            return ListTile(
-              title: Text(
-                item.name,
-                style: TextStyle(
-                  color: item.isActive ? Colors.black : Colors.grey,
-                  decoration: item.isActive ? TextDecoration.none : TextDecoration.lineThrough,
+            return Dismissible(
+              key: UniqueKey(),
+              direction: DismissDirection.endToStart,
+              background: Container(
+                color: Colors.red,
+                alignment: Alignment.centerRight,
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: const Icon(
+                  Icons.delete,
+                  color: Colors.white,
                 ),
               ),
-              onTap: () {
-                provider.toggleItem(item);
+              onDismissed: (direction) {
+                provider.removeItem(
+                    item); // Supprimer l'article lorsque le glissement est terminé
               },
+              child: ListTile(
+                title: Text(
+                  item.name,
+                  style: TextStyle(
+                    color: item.isActive ? Colors.black : Colors.grey,
+                    decoration: item.isActive
+                        ? TextDecoration.none
+                        : TextDecoration.lineThrough,
+                  ),
+                ),
+                onTap: () {
+                  provider.toggleItem(item);
+                },
+              ),
             );
           }).toList(),
         ),

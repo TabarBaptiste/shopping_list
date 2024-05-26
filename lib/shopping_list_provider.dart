@@ -8,7 +8,8 @@ class ShoppingListProvider with ChangeNotifier {
   List<ShoppingItem> get items => _items;
 
   Map<String, List<ShoppingItem>> get itemsByCategory {
-    var categorizedItems = groupBy(_items, (ShoppingItem item) => item.category);
+    var categorizedItems =
+        groupBy(_items, (ShoppingItem item) => item.category);
 
     categorizedItems.forEach((category, items) {
       items.sort((a, b) {
@@ -32,5 +33,10 @@ class ShoppingListProvider with ChangeNotifier {
       _items[index] = item.copyWith(isActive: !item.isActive);
       notifyListeners();
     }
+  }
+
+  void removeItem(ShoppingItem item) {
+    _items.remove(item);
+    notifyListeners();
   }
 }
