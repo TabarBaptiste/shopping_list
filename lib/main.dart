@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
           backgroundColor: Colors.blue,
         ),
       ),
-      home: ShoppingListScreen(),
+      home: const ShoppingListScreen(),
     );
   }
 }
